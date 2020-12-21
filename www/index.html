@@ -15,11 +15,11 @@
     const db = "SearchTest";
     // テスト用データを用意
     const init_data = [
-      {name: "blue eyes white dragon", level: 8, attack: 3000, defence: 2500},
-      {name: "dark magician", level: 7, attack: 2500, defence: 2100},
-      {name: "jacks knight", level: 5, attack: 1900, defence: 1000},
-      {name: "queens knight", level: 4, attack: 1500, defence: 1600},
-      {name: "kings knight", level: 4, attack: 1600, defence: 1400},
+      {選手名: "佐野 恵太", 順位: 1, 打率: .328, チーム名: DeNA},
+      {選手名: "梶谷 隆幸", 順位: 2, 打率: .323, チーム名: DeNA},
+      {選手名: "青木 宣親", 順位: 3, 打率: .317, チーム名: ヤクルト},
+      {選手名: "大島 洋平", 順位: 4, 打率: .316, チーム名: 中日},
+      {選手名: "村上 宗隆", 順位: 5, 打率: .307, チーム名: ヤクルト},
     ];
 
     $(function() {
@@ -30,10 +30,10 @@
           for(let i=0; i<init_data.length; i++) { // テスト用データを登録
             let newRecord = new TestDataClass();
             newRecord
-            .set("name", init_data[i].name)
-            .set("level", init_data[i].level)
-            .set("attack", init_data[i].attack)
-            .set("defence", init_data[i].defence)
+            .set("選手名", init_data[i].name)
+            .set("チーム名", init_data[i].level)
+            .set("打率", init_data[i].attack)
+            .set("順位", init_data[i].defence)
             .save();
             // bad busy loop...
             let startMsec = new Date();
