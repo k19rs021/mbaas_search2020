@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta 選手名="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: content: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
     <script src="components/loader.js"></script>
     <link rel="stylesheet" href="components/loader.css">
@@ -20,6 +20,12 @@
       {選手名: "青木 宣親", 順位: 3, 打率: .317, チーム名: ヤクルト},
       {選手名: "大島 洋平", 順位: 4, 打率: .316, チーム名: 中日},
       {選手名: "村上 宗隆", 順位: 5, 打率: .307, チーム名: ヤクルト},
+      {選手名: "高橋 周平", 順位: 6, 打率: .305, チーム名: 中日},
+      {選手名: "宮﨑 敏郎", 順位: 7, 打率: .301, チーム名: DeNA},
+      {選手名: "鈴木 誠也", 順位: 8, 打率: .300, チーム名: 広島},
+      {選手名: "近本 光司", 順位: 9, 打率: .293, チーム名: 阪神},
+      {選手名: "坂本 勇人", 順位: 10, 打率: .289, チーム名: 巨人},
+      {選手名: "大山 悠輔", 順位: 11, 打率: .288, チーム名: 阪神},
     ];
 
     $(function() {
@@ -30,10 +36,10 @@
           for(let i=0; i<init_data.length; i++) { // テスト用データを登録
             let newRecord = new TestDataClass();
             newRecord
-            .set("選手名", init_data[i].name)
-            .set("チーム名", init_data[i].level)
-            .set("打率", init_data[i].attack)
-            .set("順位", init_data[i].defence)
+            .set("選手名", init_data[i].選手名)
+            .set("チーム名", init_data[i].チーム名)
+            .set("打率", init_data[i].打率)
+            .set("順位", init_data[i].順位)
             .save();
             // bad busy loop...
             let startMsec = new Date();
@@ -48,7 +54,7 @@
 
     function fetchAll() {
       let TestDataClass = ncmb.DataStore(db); 
-      TestDataClass.order("name",false).fetchAll()
+      TestDataClass.order("選手名",false).fetchAll()
       .then(function(results) {
         showResults(results);
       })
@@ -60,10 +66,10 @@
       for(let i=0; i<results.length; i++) {
         // 各データを収めた表の列を生成
         msg += "<tr>";
-        msg += "<td>" + results[i].name + "</td>";
-        msg += "<td class='num'>" + results[i].level + "</td>";
-        msg += "<td class='num'>" + results[i].attack + "</td>";
-        msg += "<td class='num'>" + results[i].defence + "</td>";
+        msg += "<td>" + results[i].選手名 + "</td>";
+        msg += "<td class='num'>" + results[i].順位 + "</td>";
+        msg += "<td class='num'>" + results[i].打率 + "</td>";
+        msg += "<td class='num'>" + results[i].チーム名 + "</td>";
         msg += "</tr>";
       }
       // テーブルのテイラを生成
@@ -71,37 +77,37 @@
       $("#message").html(msg);
     }
 
-    function searchName() {
-      let name = $("#name").val();
+    function search選手名() {
+      let 選手名 = $("#選手名").val();
       let TestDataClass = ncmb.DataStore(db);
-      TestDataClass.equalTo("name", name).fetchAll()
+      TestDataClass.equalTo("選手名", name).fetchAll()
       .then(function(results){
         showResults(results);
       })
     }
 
-    function searchLevel() {
-      let level = parseInt($("#level").val(), 10);
+    function search順位() {
+      let 順位 = parseInt($("#順位").val(), 10);
       let TestDataClass = ncmb.DataStore(db);
-      TestDataClass.equalTo("level", level).fetchAll()
+      TestDataClass.equalTo("順位", 順位).fetchAll()
       .then(function(results){
         showResults(results);
       })
     }
 
     function searchLevelLT() {
-      let level = parseInt($("#level").val(), 10);
+      let 順位 = parseInt($("#順位").val(), 10);
       let TestDataClass = ncmb.DataStore(db);
-      TestDataClass.lessThan("level", level).fetchAll()
+      TestDataClass.lessThan("順位", 順位).fetchAll()
       .then(function(results){
         showResults(results);
       })
     }
 
-    function searchLevelGT() {
-      let level = parseInt($("#level").val(), 10);
+    function search順位GT() {
+      let 順位 = parseInt($("#順位").val(), 10);
       let TestDataClass = ncmb.DataStore(db);
-      TestDataClass.greaterThan("level", level).fetchAll()
+      TestDataClass.greaterThan("順位", 順位).fetchAll()
       .then(function(results){
         showResults(results);
       })
@@ -111,20 +117,20 @@
 <body>
   <h1>mBaaS search</h1>
   <div>
-    <label for="name">name:</label>
-    <input id="name" type="text" placeholder="monster name">
+    <label for="選手名">選手名:</label>
+    <input id="選手名" type="text" placeholder="選手名">
   </div>
   <div>
-    <label for="level">level:</label>
-    <input id="level" type="number" placeholder="monster level">
+    <label for="順位">順位:</label>
+    <input id="順位" type="number" placeholder="順位">
   </div>
   <div id="button">
     <button class="btn" onclick="fetchAll()">Fetch All</button>
-    <button class="btn" onclick="searchName()">Name</button>
+    <button class="btn" onclick="search選手名()">選手名</button>
     <br>
-    <button class="btn" onclick="searchLevelLT()">Level &lt;</button>
-    <button class="btn" onclick="searchLevel()">Level</button>
-    <button class="btn" onclick="searchLevelGT()">Level &gt;</button>
+    <button class="btn" onclick="search順位LT()">順位 &lt;</button>
+    <button class="btn" onclick="search順位()">順位</button>
+    <button class="btn" onclick="search順位GT()">順位 &gt;</button>
   </div>
   <div id="message">initializing...</div>
 </body>
